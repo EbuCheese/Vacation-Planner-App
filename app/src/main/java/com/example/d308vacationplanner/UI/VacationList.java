@@ -12,12 +12,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.d308vacationplanner.R;
 import com.example.d308vacationplanner.db.Repository;
 import com.example.d308vacationplanner.entities.Excursion;
 import com.example.d308vacationplanner.entities.Vacation;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.List;
 
 public class VacationList extends AppCompatActivity {
 private Repository repository;
@@ -35,7 +39,15 @@ private Repository repository;
                 startActivity(intent);
             }
         });
-        System.out.println(getIntent().getStringExtra("test"));
+
+        RecyclerView recyclerView = findViewById(R.id.recyclerview);
+        repository = new Repository(getApplication());
+        List<Vacation> allVacations = repository.getmAllVacations();
+        final VacationAdapter vacationAdapter = new VacationAdapter(this);
+        recyclerView.setAdapter(vacationAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        vacationAdapter.setVacations(allVacations);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -61,8 +73,6 @@ private Repository repository;
         }
         if(item.getItemId()==android.R.id.home){
             this.finish();
-//            Intent intent=new Intent(VacationList.this, VacationDetails.class);
-//            startActivity(intent);
             return true;
         }
         return true;
