@@ -1,7 +1,12 @@
 package com.example.d308vacationplanner.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,7 +15,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 import com.example.d308vacationplanner.R;
 import com.example.d308vacationplanner.db.Repository;
@@ -23,6 +27,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 public class ExcursionDetails extends AppCompatActivity {
     String title;
@@ -37,6 +42,9 @@ public class ExcursionDetails extends AppCompatActivity {
 
     String setDate;
 
+    Random rand = new Random();
+    int numAlert = rand.nextInt(99999);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +57,7 @@ public class ExcursionDetails extends AppCompatActivity {
         excursionID = getIntent().getIntExtra("id", -1);
         vacationID = getIntent().getIntExtra("vacationID", -1);
         setDate = getIntent().getStringExtra("excursionDate");
+        numAlert = rand.nextInt(99999);
 
         String myFormat = "MM/dd/yy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
@@ -126,22 +135,17 @@ public class ExcursionDetails extends AppCompatActivity {
                 Date startDate = sdf.parse(vacation.getStartDate());
                 Date endDate = sdf.parse(vacation.getEndDate());
                 if (excursionDate.before(startDate) || excursionDate.after(endDate)) {
-                    Toast.makeText(this, "excursion date must lie within the vacation start and end date", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "the excursion date must lie within the vacation start and end date", Toast.LENGTH_LONG).show();
                     return true;
                 } else {
                     Excursion excursion;
-
                     if (excursionID == -1) {
-
                         if (repository.getmAllExcursions().size() == 0) excursionID = 1;
-
-                        else
-                            excursionID = repository.getmAllExcursions().get(repository.getmAllExcursions().size() - 1).getExcursionID() + 1;
+                        else excursionID = repository.getmAllExcursions().get(repository.getmAllExcursions().size() - 1).getExcursionID() + 1;
                         excursion = new Excursion(excursionID, editTitle.getText().toString(), vacationID, excursionDateString);
                         repository.insert(excursion);
                         this.finish();
                     } else {
-
                         excursion = new Excursion(excursionID, editTitle.getText().toString(), vacationID, excursionDateString);
                         repository.update(excursion);
                         this.finish();
@@ -153,7 +157,6 @@ public class ExcursionDetails extends AppCompatActivity {
             return true;
         }
 
-
         if (item.getItemId() == R.id.excursiondelete) {
             for (Excursion excursion : repository.getmAllExcursions()) {
                 if (excursion.getExcursionID() == excursionID) currentExcursion = excursion;
@@ -163,8 +166,33 @@ public class ExcursionDetails extends AppCompatActivity {
             ExcursionDetails.this.finish();
         }
 
-        return true;
+        if (item.getItemId() == R.id.excursionalert) {
+            String dateFromScreen = editExcursionDate.getText().toString();
+            String alert = "Excursion " + title + " is today";
+
+            String myFormat = "MM/dd/yy";
+            SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+            Date myDate = null;
+            try {
+                myDate = sdf.parse(dateFromScreen);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            Long trigger = myDate.getTime();
+            Intent intent = new Intent(ExcursionDetails.this, MyReceiver.class);
+            intent.putExtra("key", alert);
+            PendingIntent sender = PendingIntent.getBroadcast(ExcursionDetails.this, numAlert, intent, PendingIntent.FLAG_IMMUTABLE);
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
+            numAlert = rand.nextInt(99999);
+            System.out.println("numAlert Excursion = " + numAlert);
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
+
     @Override
     protected void onResume() {
         super.onResume();
