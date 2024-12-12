@@ -31,11 +31,11 @@ private Repository repository;
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_vacation_list);
-        FloatingActionButton fab=findViewById(R.id.floatingActionButton);
+        FloatingActionButton fab = findViewById(R.id.floatingActionButton);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(VacationList.this,VacationDetails.class);
+                Intent intent = new Intent(VacationList.this, VacationDetails.class);
                 startActivity(intent);
             }
         });
@@ -47,27 +47,38 @@ private Repository repository;
         recyclerView.setAdapter(vacationAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         vacationAdapter.setVacations(allVacations);
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
     }
+//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+//            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+//            return insets;
+//        });
+//    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_vacation_list, menu);
         return true;
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        List<Vacation> allVacations = repository.getmAllVacations();
+        RecyclerView recyclerView = findViewById(R.id.recyclerview);
+        final VacationAdapter vacationAdapter = new VacationAdapter(this);
+        recyclerView.setAdapter(vacationAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        vacationAdapter.setVacations(allVacations);
+    }
 
+    @Override
     public boolean onOptionsItemSelected(MenuItem item){
         if(item.getItemId()==R.id.sample){
             repository=new Repository(getApplication());
-            Toast.makeText(VacationList.this,"put in sample data",Toast.LENGTH_LONG).show();
+            Toast.makeText(VacationList.this,"sample data added",Toast.LENGTH_LONG).show();
             Vacation vacation=new Vacation(0,"Bermuda","Bermuda Hostel","03/15/2025","04/10/2025");
             repository.insert(vacation);
-            Excursion excursion=new Excursion(0,"Snorkeling",1,"03/13/2025");
+            Excursion excursion=new Excursion(0,"Snorkeling",2,"03/20/2025");
             repository.insert(excursion);
             return true;
         }

@@ -66,13 +66,14 @@ public class VacationAdapter extends RecyclerView.Adapter<VacationAdapter.Vacati
         }
     }
 
+
     @Override
     public int getItemCount() {
         return (mVacations != null) ? mVacations.size() : 0;
     }
 
     public void setVacations(List<Vacation> vacations) {
-        this.mVacations = vacations;
+        mVacations = vacations;
         notifyDataSetChanged();
     }
 }

@@ -8,46 +8,6 @@
     tools:context=".UI.ExcursionDetails">
 
 
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="253dp"
-        android:layout_height="42dp"
-        android:layout_marginTop="32dp"
-        android:text="Add/Change Excursion Date:"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/excursionDate"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.468"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/excursionTitle"
-        app:layout_constraintVertical_bias="0.012" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="242dp"
-        android:layout_height="62dp"
-        android:layout_marginTop="152dp"
-        android:text="Add/Change Excursion Title:"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.473"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/excursionTitle"
-        android:layout_width="252dp"
-        android:layout_height="61dp"
-        android:ems="10"
-        android:hint="Title"
-        android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@+id/excursionDate"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.471"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"
-        app:layout_constraintVertical_bias="0.125" />
-
     <Button
         android:id="@+id/excursionDate"
         android:layout_width="wrap_content"
@@ -58,9 +18,47 @@
         android:text="Excursion Date Here"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.477"
+        app:layout_constraintHorizontal_bias="0.499"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4"
-        app:layout_constraintVertical_bias="0.343" />
+        app:layout_constraintVertical_bias="0.84" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="242dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="24dp"
+        android:text="Add/Change Excursion Title:"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="253dp"
+        android:layout_height="42dp"
+        android:text="Add/Change Excursion Date:"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/excursionDate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/excursionTitle"
+        app:layout_constraintVertical_bias="0.711" />
+
+    <EditText
+        android:id="@+id/excursionTitle"
+        android:layout_width="252dp"
+        android:layout_height="61dp"
+        android:ems="10"
+        android:hint="Title"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/excursionDate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        app:layout_constraintVertical_bias="0.131" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

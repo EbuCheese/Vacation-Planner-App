@@ -57,7 +57,7 @@ public class ExcursionAdapter extends RecyclerView.Adapter<ExcursionAdapter.Excu
 
     @Override
     public void onBindViewHolder(@NonNull ExcursionViewHolder holder, int position) {
-        if (mExcursions != null) {
+        if (mExcursions != null && position < mExcursions.size()) {
             Excursion current = mExcursions.get(position);
             holder.excursionItemView.setText(current.getExcursionTitle());
         } else {

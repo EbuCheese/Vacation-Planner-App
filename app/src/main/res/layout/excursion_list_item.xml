@@ -7,10 +7,10 @@
 
     <TextView
         android:id="@+id/textView3"
-        style="@style/ListItemTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="60dp"
+        android:textSize="17dp"
+        android:paddingTop="20dp"
         android:text="TextView"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
